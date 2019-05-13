@@ -1,4 +1,23 @@
 <?php
 /**
  * @var \Inchoo\Ticket\Block\Ticket $block
+ * @var $ticket \Inchoo\Ticket\Api\Data\TicketInterface
  */
+?>
+<h3>Create post</h3>
+
+<form action="<?php echo $block->escapeUrl($block->getPostUrl()) ?>" method="post">
+    <label for="subject" class="label">Subject</label>
+    <input name="subject" id="subject" type="text"><br /><br />
+    <label for="message" class="label">Message</label>
+    <input name="message" id="message" type="text"><br /><br />
+    <input type="submit" class="action submit primary" value="Send ticket">
+</form>
+
+<br /><br />
+
+<h3>List:</h3>
+<?php foreach ($block->getTickets() as $ticket): ?>
+    <p>Ticket subject: <?= $ticket->getSubject(); ?></p>
+<?php endforeach; ?>
+
