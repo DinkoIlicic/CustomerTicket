@@ -156,4 +156,26 @@ class TicketRepository implements TicketRepositoryInterface
         $searchResults->setTotalCount($collection->getSize());
         return $searchResults;
     }
+
+    /**
+     * @param array $array
+     * @return bool|void
+     * @throws CouldNotSaveException
+     */
+    public function addTicket($array = [])
+    {
+        try {
+            /**
+             * @var TicketInterface $ticket
+             */
+            $ticket = $this->ticketModelFactory->create();
+            $ticket->setCustomerId($array[TicketInterface::CUSTOMER_ID]);
+            $ticket->setWebsiteId($array[TicketInterface::WEBSITE_ID]);
+            $ticket->setSubject($array[TicketInterface::SUBJECT]);
+            $ticket->setMessage($array[TicketInterface::MESSAGE]);
+            $this->save($ticket);
+        } catch (\Exception $exception) {
+            throw new CouldNotSaveException(__($exception->getMessage()));
+        }
+    }
 }

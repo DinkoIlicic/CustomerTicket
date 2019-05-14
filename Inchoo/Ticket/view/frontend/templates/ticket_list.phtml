@@ -1,4 +1,36 @@
 <?php
 /**
  * @var \Inchoo\Ticket\Block\Ticket $block
+ * @var $ticket \Inchoo\Ticket\Api\Data\TicketInterface
  */
+?>
+<div class="columns">
+    <div>
+        <h3>Create ticket</h3>
+        <form action="<?php echo $block->escapeUrl($block->getPostUrl()) ?>" method="post" data-mage-init='{"validation":{}}'>
+           <label for="title" class="label"><?php echo __('Subject'); ?></label>
+            <input data-validate='{"required":true, maxlength:254}' name="title" id="title" type="text"><br /><br />
+            <label for="content" class="label"><?php echo __('Message'); ?></label>
+            <input data-validate='{"required":true}' name="content" id="content" type="text"><br /><br />
+            <input type="submit" class="action submit primary" value="<?php echo __('Submit')?>">
+        </form>
+    </div><br /><br />
+    <div>
+        <h3>List:</h3>
+        <?php foreach ($block->getTickets() as $ticket): ?>
+            <p>
+                <a href="<?php echo $block->escapeUrl($block->getTicketDetailsUrl($ticket->getId())); ?>">
+                    <?php echo __('Ticket Subject'); ?>: <?= $block->escapeHtml($ticket->getSubject()); ?>
+                </a>
+            </p>
+            <p><?php
+                if ((bool)$ticket->getStatus() === false) {
+                    ?>
+                    <a href="<?php echo $block->escapeUrl($block->getCloseUrl($ticket->getId())); ?>" class="action submit primary"><?php echo __('Close'); ?></a><?php
+                } elseif ((bool)$ticket->getStatus() === true) {
+                    echo __('Closed');
+                }?>
+            </p>
+        <?php endforeach; ?>
+    </div>
+</div>
