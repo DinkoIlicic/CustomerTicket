@@ -2,15 +2,15 @@
 /**
  * Created by PhpStorm.
  * User: inchoo
- * Date: 5/13/19
- * Time: 1:21 PM
+ * Date: 5/14/19
+ * Time: 8:37 AM
  */
 
 namespace Inchoo\Ticket\Controller\Ticket;
 
 use Magento\Framework\App\Action\Context;
 
-class Index extends CustomerAction
+class Detail extends CustomerAction
 {
     /**
      * @var \Magento\Framework\View\Result\PageFactory
@@ -28,7 +28,7 @@ class Index extends CustomerAction
     private $ticketRepository;
 
     /**
-     * Index constructor.
+     * Detail constructor.
      * @param Context $context
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      * @param \Magento\Customer\Model\Session $session
@@ -51,8 +51,12 @@ class Index extends CustomerAction
     public function execute()
     {
         $this->isCustomerLoggedIn();
+        if (!$this->validateTicket((int)$this->getRequest()->getParam('id'))) {
+            return $this->redirectToIndex();
+        }
+
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->set(__('My Tickets'));
+        $resultPage->getConfig()->getTitle()->set(__('My Ticket Details'));
         return $resultPage;
     }
 }

@@ -169,10 +169,10 @@ class TicketRepository implements TicketRepositoryInterface
              * @var TicketInterface $ticket
              */
             $ticket = $this->ticketModelFactory->create();
-            $ticket->setCustomerId($array['customer_id']);
-            $ticket->setWebsiteId($array['website_id']);
-            $ticket->setSubject($array['subject']);
-            $ticket->setMessage($array['message']);
+            $ticket->setCustomerId($array[TicketInterface::CUSTOMER_ID]);
+            $ticket->setWebsiteId($array[TicketInterface::WEBSITE_ID]);
+            $ticket->setSubject($array[TicketInterface::SUBJECT]);
+            $ticket->setMessage($array[TicketInterface::MESSAGE]);
             $this->save($ticket);
         } catch (\Exception $exception) {
             throw new CouldNotSaveException(__($exception->getMessage()));

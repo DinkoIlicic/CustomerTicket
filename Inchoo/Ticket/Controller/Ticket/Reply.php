@@ -2,17 +2,17 @@
 /**
  * Created by PhpStorm.
  * User: inchoo
- * Date: 5/13/19
- * Time: 2:36 PM
+ * Date: 5/14/19
+ * Time: 9:27 AM
  */
 
 namespace Inchoo\Ticket\Controller\Ticket;
 
-use Inchoo\Ticket\Api\Data\TicketInterface;
-use Inchoo\Ticket\Api\TicketRepositoryInterface;
+use Inchoo\Ticket\Api\Data\TicketReplyInterface;
+use Inchoo\Ticket\Api\TicketReplyRepositoryInterface;
 use Magento\Framework\App\Action\Context;
 
-class NewAction extends CustomerAction
+class Reply extends CustomerAction
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -20,19 +20,14 @@ class NewAction extends CustomerAction
     private $session;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    private $storeManager;
-
-    /**
      * @var \Magento\Framework\Escaper
      */
     private $escaper;
 
     /**
-     * @var TicketRepositoryInterface
+     * @var TicketReplyRepositoryInterface
      */
-    private $ticketRepository;
+    private $replyRepository;
 
     /**
      * @var \Magento\Framework\Data\Form\FormKey\Validator
@@ -40,30 +35,35 @@ class NewAction extends CustomerAction
     private $formKeyValidator;
 
     /**
-     * NewAction constructor.
+     * @var \Inchoo\Ticket\Api\TicketRepositoryInterface
+     */
+    private $ticketRepository;
+
+    /**
+     * Reply constructor.
      * @param Context $context
      * @param \Magento\Customer\Model\Session $session
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Escaper $escaper
-     * @param TicketRepositoryInterface $ticketRepository
+     * @param TicketReplyRepositoryInterface $replyRepository
      * @param \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
      * @param \Magento\Framework\UrlInterface $url
+     * @param \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository
      */
     public function __construct(
         Context $context,
         \Magento\Customer\Model\Session $session,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Escaper $escaper,
-        TicketRepositoryInterface $ticketRepository,
+        TicketReplyRepositoryInterface $replyRepository,
         \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
-        \Magento\Framework\UrlInterface $url
+        \Magento\Framework\UrlInterface $url,
+        \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository
     ) {
         parent::__construct($context, $session, $url, $ticketRepository);
         $this->session = $session;
-        $this->storeManager = $storeManager;
         $this->escaper = $escaper;
-        $this->ticketRepository = $ticketRepository;
+        $this->replyRepository = $replyRepository;
         $this->formKeyValidator = $formKeyValidator;
+        $this->ticketRepository = $ticketRepository;
     }
 
     public function execute()
@@ -73,28 +73,29 @@ class NewAction extends CustomerAction
             return $this->redirectToIndex();
         }
 
+        $ticketId = (int)$this->getRequest()->getParam('id');
+        if (!$this->validateTicket($ticketId)) {
+            return $this->redirectToIndex();
+        }
+
         try {
-            $customerId = (int) $this->session->getCustomerId();
-            $websiteId = (int) $this->storeManager->getStore()->getWebsiteId();
-            $subject = $this->escaper->escapeHtml($this->getRequest()->getParam('title'));
             $message = $this->escaper->escapeHtml($this->getRequest()->getParam('content'));
-            if (!$subject || !$message || !$customerId || !$websiteId) {
+            if (!$message) {
                 $this->messageManager->addErrorMessage(__('Data missing!'));
                 return $this->redirectToIndex();
             }
 
-            $array = [
-                TicketInterface::CUSTOMER_ID => $customerId,
-                TicketInterface::WEBSITE_ID => $websiteId,
-                TicketInterface::SUBJECT => $subject,
-                TicketInterface::MESSAGE => $message
-            ];
-            $this->ticketRepository->addTicket($array);
-            $this->messageManager->addSuccessMessage(__('Ticket created!'));
+            $array =
+                [
+                    TicketReplyInterface::MESSAGE => $message,
+                    TicketReplyInterface::TICKET_ID => $ticketId
+                ];
+            $this->replyRepository->addReply($array);
+            $this->messageManager->addSuccessMessage(__('Replied!'));
         } catch (\Exception $exception) {
-            $this->messageManager->addErrorMessage(__('Ticket not created!'));
+            $this->messageManager->addErrorMessage(__('Not replied!'));
         }
 
-        return $this->redirectToIndex();
+        return $this->redirectToTicket($ticketId);
     }
 }
