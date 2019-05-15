@@ -91,7 +91,7 @@ class InstallSchema implements InstallSchemaInterface
                 'nullable' => false,
                 'default' => false
             ],
-            'Status'
+            'Closed'
         )->addForeignKey(
             $setup->getFkName(
                 'inchoo_customer_ticket',
