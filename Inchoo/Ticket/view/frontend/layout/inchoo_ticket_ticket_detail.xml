@@ -3,6 +3,7 @@
     <body>
         <referenceContainer name="content">
             <block class="Inchoo\Ticket\Block\Detail" name="ticketDetail" template="Inchoo_Ticket::ticket_detail.phtml" />
+            <block class="Inchoo\Ticket\Block\Detail" name="replyForm" template="Inchoo_Ticket::reply_form.phtml" />
         </referenceContainer>
     </body>
 </page>

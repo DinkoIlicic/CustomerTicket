@@ -58,7 +58,7 @@ abstract class CustomerAction extends Action
         $this->_redirect('ticket/ticket/detail/id/', ['id' => $id]);
     }
 
-    protected function validateTicket($id)
+    protected function validateAndReturnTicket($id)
     {
         try {
             $customerId = (int) $this->session->getCustomerId();
@@ -72,6 +72,6 @@ abstract class CustomerAction extends Action
             return false;
         }
 
-        return true;
+        return $ticket;
     }
 }

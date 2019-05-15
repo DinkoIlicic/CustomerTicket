@@ -38,6 +38,10 @@ class NewAction extends CustomerAction
      * @var \Magento\Framework\Data\Form\FormKey\Validator
      */
     private $formKeyValidator;
+    /**
+     * @var \Magento\Framework\App\Request\Http
+     */
+    private $request;
 
     /**
      * NewAction constructor.
@@ -48,6 +52,7 @@ class NewAction extends CustomerAction
      * @param TicketRepositoryInterface $ticketRepository
      * @param \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
      * @param \Magento\Framework\UrlInterface $url
+     * @param \Magento\Framework\App\Request\Http $request
      */
     public function __construct(
         Context $context,
@@ -56,7 +61,8 @@ class NewAction extends CustomerAction
         \Magento\Framework\Escaper $escaper,
         TicketRepositoryInterface $ticketRepository,
         \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
-        \Magento\Framework\UrlInterface $url
+        \Magento\Framework\UrlInterface $url,
+        \Magento\Framework\App\Request\Http $request
     ) {
         parent::__construct($context, $session, $url, $ticketRepository);
         $this->session = $session;
@@ -64,6 +70,7 @@ class NewAction extends CustomerAction
         $this->escaper = $escaper;
         $this->ticketRepository = $ticketRepository;
         $this->formKeyValidator = $formKeyValidator;
+        $this->request = $request;
     }
 
     public function execute()
@@ -76,10 +83,10 @@ class NewAction extends CustomerAction
         try {
             $customerId = (int) $this->session->getCustomerId();
             $websiteId = (int) $this->storeManager->getStore()->getWebsiteId();
-            $subject = $this->escaper->escapeHtml($this->getRequest()->getParam('title'));
-            $message = $this->escaper->escapeHtml($this->getRequest()->getParam('content'));
-            if (!$subject || !$message || !$customerId || !$websiteId) {
-                $this->messageManager->addErrorMessage(__('Data missing!'));
+            $subject = $this->escaper->escapeHtml($this->request->getPostValue('title'));
+            $message = $this->escaper->escapeHtml($this->request->getPostValue('content'));
+            if (empty($subject) || empty($message)) {
+                $this->messageManager->addErrorMessage('Form fields cannot be empty!');
                 return $this->redirectToIndex();
             }
 

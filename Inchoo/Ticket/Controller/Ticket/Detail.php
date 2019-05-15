@@ -51,7 +51,7 @@ class Detail extends CustomerAction
     public function execute()
     {
         $this->isCustomerLoggedIn();
-        if (!$this->validateTicket((int)$this->getRequest()->getParam('id'))) {
+        if (!$this->validateAndReturnTicket((int)$this->getRequest()->getParam('id'))) {
             return $this->redirectToIndex();
         }
 
