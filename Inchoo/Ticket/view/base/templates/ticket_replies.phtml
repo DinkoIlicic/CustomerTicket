@@ -1,0 +1,26 @@
+<?php
+/**
+ * @var \Inchoo\Ticket\Block\Detail $block
+ * @var \Inchoo\Ticket\Api\Data\TicketReplyInterface $reply
+ */
+?>
+<hr />
+<div>
+    <p><?php echo __('Replies'); ?>:</p>
+    <?php foreach ($block->getReplies() as $reply): ?>
+        <p><?php
+            echo $block->formatDate(
+                    $block->escapeHtml($reply->getCreatedAt()),
+                    3,
+                    true,
+                    'Europe/Zagreb'
+                ) . ' ';
+            if ($reply->getAdminId() !== null) {
+                echo $block->escapeHtml($block->getAdminName($reply->getAdminId()));
+            } else {
+                echo $block->escapeHtml($block->getCustomerName($block->getTicketDetails()->getCustomerId())) . ':';
+            }?>
+        </p>
+        <p><?= $block->escapeHtml($reply->getMessage()); ?></p><br />
+    <?php endforeach; ?>
+</div>
