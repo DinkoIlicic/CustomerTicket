@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">ticket_ticket_listing.ticket_ticket_listing_data_source</item>
+        </item>
+    </argument>
+
+    <settings>
+        <spinner>ticket_ticket_columns</spinner>
+        <deps>
+            <dep>ticket_ticket_listing.ticket_ticket_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="ticket_ticket_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">ticket_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>Inchoo_Ticket::ticket</aclResource>
+        <dataProvider class="Inchoo\Ticket\Ui\Component\Listing\DataProvider" name="ticket_ticket_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>ticket_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>false</sticky>
+        </settings>
+        <massaction name="listing_massaction">
+            <action name="close">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">close</item>
+                        <item name="label" xsi:type="string" translate="true">Close</item>
+                        <item name="url" xsi:type="url" path="ticket/ticket/massClose"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Close tickets</item>
+                            <item name="message" xsi:type="string" translate="true">Are you sure you wan't to close selected tickets?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+            <action name="delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">delete</item>
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="url" path="ticket/ticket/massDelete"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Delete tickets</item>
+                            <item name="message" xsi:type="string" translate="true">Are you sure you wan't to delete selected tickets?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+        </massaction>
+
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+
+
+        <paging name="listing_paging"/>
+
+    </listingToolbar>
+
+    <columns name="ticket_ticket_columns">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>ticket_id</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="ticket_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+        <column name="subject">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Subject</label>
+            </settings>
+        </column>
+        <column name="status">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Status</label>
+            </settings>
+        </column>
+        <column name="created_at">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Created At</label>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="Inchoo\Ticket\Ui\Component\Listing\Column\DetailsActions">
+            <settings>
+                <indexField>ticket_id</indexField>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>

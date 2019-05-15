@@ -5,7 +5,7 @@
         <resources>
             <resource id="Magento_Backend::admin">
                 <resource id="Magento_Customer::customer">
-                    <resource id="Inchoo_Ticket::ticket" title="Ticket" translate="title" sortOrder="100" />
+                    <resource id="Inchoo_Ticket::ticket" title="Tickets" translate="title" sortOrder="100" />
                 </resource>
             </resource>
         </resources>
