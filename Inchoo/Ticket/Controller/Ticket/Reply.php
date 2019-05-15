@@ -38,6 +38,10 @@ class Reply extends CustomerAction
      * @var \Inchoo\Ticket\Api\TicketRepositoryInterface
      */
     private $ticketRepository;
+    /**
+     * @var \Magento\Framework\App\Request\Http
+     */
+    private $request;
 
     /**
      * Reply constructor.
@@ -48,6 +52,7 @@ class Reply extends CustomerAction
      * @param \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
      * @param \Magento\Framework\UrlInterface $url
      * @param \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository
+     * @param \Magento\Framework\App\Request\Http $request
      */
     public function __construct(
         Context $context,
@@ -56,7 +61,8 @@ class Reply extends CustomerAction
         TicketReplyRepositoryInterface $replyRepository,
         \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
         \Magento\Framework\UrlInterface $url,
-        \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository
+        \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository,
+        \Magento\Framework\App\Request\Http $request
     ) {
         parent::__construct($context, $session, $url, $ticketRepository);
         $this->session = $session;
@@ -64,6 +70,7 @@ class Reply extends CustomerAction
         $this->replyRepository = $replyRepository;
         $this->formKeyValidator = $formKeyValidator;
         $this->ticketRepository = $ticketRepository;
+        $this->request = $request;
     }
 
     public function execute()
@@ -73,21 +80,22 @@ class Reply extends CustomerAction
             return $this->redirectToIndex();
         }
 
-        $ticketId = (int)$this->getRequest()->getParam('id');
-        if (!$this->validateTicket($ticketId)) {
+        $ticketId = (int)$this->request->getPostValue('id');
+        $ticket = $this->validateAndReturnTicket($ticketId);
+        if (!$ticket) {
             return $this->redirectToIndex();
         }
 
         try {
-            $message = $this->escaper->escapeHtml($this->getRequest()->getParam('content'));
-            if (!$message) {
-                $this->messageManager->addErrorMessage(__('Data missing!'));
-                return $this->redirectToIndex();
+            $ticketMessage = $this->escaper->escapeHtml($this->request->getPostValue('content'));
+            if (empty($ticketMessage)) {
+                $this->messageManager->addErrorMessage(__('Message cannot be empty!'));
+                return $this->redirectToTicket($ticketId);
             }
 
             $array =
                 [
-                    TicketReplyInterface::MESSAGE => $message,
+                    TicketReplyInterface::MESSAGE => $ticketMessage,
                     TicketReplyInterface::TICKET_ID => $ticketId
                 ];
             $this->replyRepository->addReply($array);

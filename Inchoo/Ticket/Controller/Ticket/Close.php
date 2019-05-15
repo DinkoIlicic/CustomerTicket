@@ -44,12 +44,12 @@ class Close extends CustomerAction
     public function execute()
     {
         $this->isCustomerLoggedIn();
-        if (!$this->validateTicket((int)$this->getRequest()->getParam('id'))) {
+        $ticket = $this->validateAndReturnTicket((int)$this->getRequest()->getParam('id'));
+        if (!$ticket) {
             return $this->redirectToIndex();
         }
 
         try {
-            $ticket = $this->ticketRepository->getById((int)$this->getRequest()->getParam('id'));
             $ticket->setStatus(true);
             $this->ticketRepository->save($ticket);
             $this->messageManager->addSuccessMessage(__('Ticket closed!'));
