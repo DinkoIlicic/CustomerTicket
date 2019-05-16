@@ -30,7 +30,7 @@ class DetailsActions extends Column
                     'details' => [
                         'href' => $this->context->getUrl(
                             'ticket/ticket/details',
-                            ['ticket_id' => $item['ticket_id']]
+                            ['id' => $item['ticket_id']]
                         ),
                         'label' => __('Details')
                     ]

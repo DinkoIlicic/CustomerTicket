@@ -12,6 +12,7 @@ use Inchoo\Ticket\Api\Data\TicketReplyInterface;
 use Inchoo\Ticket\Api\TicketReplyRepositoryInterface;
 use Inchoo\Ticket\Api\TicketRepositoryInterface;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Template;
 
 class Detail extends Template
@@ -43,6 +44,10 @@ class Detail extends Template
      * @var \Magento\User\Model\ResourceModel\User
      */
     private $userResource;
+    /**
+     * @var \Magento\Customer\Model\ResourceModel\CustomerRepository
+     */
+    private $customerRepository;
 
     /**
      * Detail constructor.
@@ -53,6 +58,7 @@ class Detail extends Template
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\User\Model\UserFactory $userFactory
      * @param \Magento\User\Model\ResourceModel\User $userResource
+     * @param \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository
      * @param array $data
      */
     public function __construct(
@@ -63,6 +69,7 @@ class Detail extends Template
         \Magento\Customer\Model\Session $session,
         \Magento\User\Model\UserFactory $userFactory,
         \Magento\User\Model\ResourceModel\User $userResource,
+        \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -72,6 +79,7 @@ class Detail extends Template
         $this->session = $session;
         $this->userFactory = $userFactory;
         $this->userResource = $userResource;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
@@ -114,11 +122,21 @@ class Detail extends Template
     }
 
     /**
-     * @return string
+     * @param $id
+     * @return string|null
      */
-    public function getCustomerName()
+    public function getCustomerName($id)
     {
-        return ucfirst($this->session->getCustomerData()->getFirstname()) . ' ' . ucfirst($this->session->getCustomerData()->getLastname());
+        try {
+            $customer = $this->customerRepository->getById($id);
+            return ucfirst($customer->getFirstname()) . ' ' . ucfirst($customer->getLastname());
+        } catch (NoSuchEntityException $exception) {
+            $message = $exception->getMessage();
+        } catch (LocalizedException $exception) {
+            $message = $exception->getMessage();
+        }
+
+        return ucfirst($customer->getFirstname()) . ' ' . ucfirst($customer->getLastname());
     }
 
     /**

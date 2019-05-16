@@ -89,7 +89,13 @@
                 <label translate="true">Subject</label>
             </settings>
         </column>
-        <column name="status">
+        <column name="customer_name">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Customer</label>
+            </settings>
+        </column>
+        <column name="status_name">
             <settings>
                 <filter>text</filter>
                 <label translate="true">Status</label>

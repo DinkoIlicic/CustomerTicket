@@ -3,10 +3,10 @@
  * Created by PhpStorm.
  * User: inchoo
  * Date: 5/15/19
- * Time: 10:22 AM
+ * Time: 12:33 PM
  */
 
-namespace Inchoo\Ticket\Ui\Component\Listing;
+namespace Inchoo\Ticket\Ui\Component\Form;
 
 class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
 {
@@ -40,24 +40,18 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
     }
 
     /**
-     * This class can be declared with virtualType
-     *
      * {@inheritdoc}
      */
     public function getData()
     {
-        $data = $this->getCollection()->toArray();
-        foreach ($data['items'] as $key => $item) {
-            $customerName = $this->getCustomerName($item['customer_id']);
-            $status = $item['status'];
-            if ($status === "0") {
-                $statusName = "Open";
-            } elseif ($status === "1") {
-                $statusName = "Closed";
-            }
-            $data['items'][$key]['customer_name'] = $customerName;
-            $data['items'][$key]['status_name'] = $statusName;
+        $data = [];
+        $dataObject = $this->getCollection()->getFirstItem();
+
+        if ($dataObject->getId()) {
+            $data[$dataObject->getId()] = $dataObject->toArray();
         }
+        $customerName = $this->getCustomerName($data[$dataObject->getId()]['customer_id']);
+        $data[$dataObject->getId()]['customer_name'] = $customerName;
         return $data;
     }
 
