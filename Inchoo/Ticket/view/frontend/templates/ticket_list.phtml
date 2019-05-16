@@ -4,7 +4,7 @@
  * @var $ticket \Inchoo\Ticket\Api\Data\TicketInterface
  */
 ?>
-<div class="columns">
+<div>
     <div>
         <h3>Create ticket</h3>
         <form action="<?php echo $block->escapeUrl($block->getPostUrl()) ?>" method="post" data-mage-init='{"validation":{}}'>
@@ -15,22 +15,47 @@
             <input type="submit" class="action submit primary" value="<?php echo __('Submit')?>">
         </form>
     </div><br /><br />
-    <div>
-        <h3>List:</h3>
-        <?php foreach ($block->getTickets() as $ticket): ?>
-            <p>
-                <a href="<?php echo $block->escapeUrl($block->getTicketDetailsUrl($ticket->getId())); ?>">
-                    <?php echo __('Ticket Subject'); ?>: <?= $block->escapeHtml($ticket->getSubject()); ?>
-                </a>
-            </p>
-            <p><?php
-                if ((bool)$ticket->getStatus() === false) {
-                    ?>
-                    <a href="<?php echo $block->escapeUrl($block->getCloseUrl($ticket->getId())); ?>" class="action submit primary"><?php echo __('Close'); ?></a><?php
-                } elseif ((bool)$ticket->getStatus() === true) {
-                    echo __('Closed');
-                }?>
-            </p>
-        <?php endforeach; ?>
-    </div>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+    <?php endif;
+    if ($block->getTicketCollection()->count() > 0):?>
+        <div class="table-wrapper orders-history">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Created at</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($block->getTicketCollection() as $ticket): ?>
+                        <tr>
+                            <td>
+                                <a href="<?php echo $block->escapeUrl($block->getTicketDetailsUrl($ticket->getId())); ?>">
+                                   <?= $block->escapeHtml($ticket->getSubject()); ?>
+                                </a>
+                            </td>
+                            <td><?php
+                                echo $block->formatDate(
+                                    $block->escapeHtml($block->getCreatedAt()),
+                                    3,
+                                    true,
+                                    'Europe/Zagreb'
+                                )?>
+                            </td>
+                            <td><?php
+                                if ((bool)$ticket->getStatus() === false) {
+                                    ?>
+                                    <a href="<?php echo $block->escapeUrl($block->getCloseUrl($ticket->getId())); ?>" class="action submit primary"><?php echo __('Close'); ?></a><?php
+                                } elseif ((bool)$ticket->getStatus() === true) {
+                                    echo __('Closed');
+                                }?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php endif; ?>
 </div>

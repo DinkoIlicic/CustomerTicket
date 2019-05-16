@@ -32,6 +32,10 @@ class Reply extends Action
      * @var \Magento\Backend\Model\Auth\Session
      */
     private $authSession;
+    /**
+     * @var \Inchoo\Ticket\Api\TicketRepositoryInterface
+     */
+    private $ticketRepository;
 
     public function __construct(
         Action\Context $context,
@@ -39,7 +43,8 @@ class Reply extends Action
         \Inchoo\Ticket\Model\TicketReplyFactory $ticketReplyFactory,
         \Inchoo\Ticket\Model\ResourceModel\TicketReply $ticketReplyResource,
         \Magento\Framework\Escaper $escaper,
-        \Magento\Backend\Model\Auth\Session $authSession
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository
     ) {
         parent::__construct($context);
         $this->request = $request;
@@ -47,10 +52,12 @@ class Reply extends Action
         $this->ticketReplyResource = $ticketReplyResource;
         $this->escaper = $escaper;
         $this->authSession = $authSession;
+        $this->ticketRepository = $ticketRepository;
     }
 
     /**
      * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|string
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function execute()
     {

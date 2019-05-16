@@ -57,7 +57,15 @@
             </settings>
         </hidden>
 
-        <input name="subject" sortOrder="10">
+        <input name="customer_name" sortOrder="10">
+            <settings>
+                <label translate="true">Customer</label>
+                <dataScope>customer_name</dataScope>
+                <disabled>true</disabled>
+            </settings>
+        </input>
+
+        <input name="subject" sortOrder="20">
             <settings>
                 <label translate="true">Subject</label>
                 <dataScope>subject</dataScope>
@@ -65,7 +73,7 @@
             </settings>
         </input>
 
-        <textarea name="message" sortOrder="20">
+        <textarea name="message" sortOrder="30">
             <settings>
                 <label translate="true">Message</label>
                 <dataScope>message</dataScope>
@@ -73,7 +81,7 @@
             </settings>
         </textarea>
 
-        <textarea name="reply" sortOrder="30">
+        <textarea name="reply" sortOrder="40">
             <settings>
                 <label translate="true">Reply</label>
                 <dataScope>reply</dataScope>
