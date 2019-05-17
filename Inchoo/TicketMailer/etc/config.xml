@@ -1,0 +1,11 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <ticket_mailer>
+            <email>
+                <enable>0</enable>
+                <recipient_email>test123@gmail.com</recipient_email>
+                <email_template>ticketMailer_email_email_template</email_template>
+            </email>
+        </ticket_mailer>
+    </default>
+</config>

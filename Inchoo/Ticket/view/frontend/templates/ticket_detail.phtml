@@ -1,0 +1,17 @@
+<?php
+/**
+ * @var \Inchoo\Ticket\Block\Detail $block
+ * @var \Inchoo\Ticket\Api\Data\TicketReplyInterface $reply
+ */
+?>
+<div class="columns">
+    <div id="ticketDetail">
+        <h2>
+            <?php echo __('Ticket title'); ?>: <?= $block->escapeHtml($block->getTicketDetails()->getSubject()); ?>
+        </h2>
+        <h3>
+            <?php echo __('Ticket content'); ?>: <?= $block->escapeHtml($block->getTicketDetails()->getMessage()); ?>
+        </h3>
+    </div>
+</div>
+
