@@ -11,7 +11,7 @@
            <label for="title" class="label"><?php echo __('Subject'); ?></label>
             <input data-validate='{"required":true, maxlength:254}' name="title" id="title" type="text"><br /><br />
             <label for="content" class="label"><?php echo __('Message'); ?></label>
-            <input data-validate='{"required":true}' name="content" id="content" type="text"><br /><br />
+            <textarea data-validate='{"required":true}' name="content" id="content" type="text"></textarea><br /><br />
             <input type="submit" class="action submit primary" value="<?php echo __('Submit')?>">
         </form>
     </div><br /><br />
