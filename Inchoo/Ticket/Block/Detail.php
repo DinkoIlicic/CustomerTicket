@@ -48,6 +48,10 @@ class Detail extends Template
      * @var \Magento\Customer\Model\ResourceModel\CustomerRepository
      */
     private $customerRepository;
+    /**
+     * @var \Magento\Framework\Api\SortOrderBuilder
+     */
+    private $orderBuilder;
 
     /**
      * Detail constructor.
@@ -59,6 +63,7 @@ class Detail extends Template
      * @param \Magento\User\Model\UserFactory $userFactory
      * @param \Magento\User\Model\ResourceModel\User $userResource
      * @param \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository
+     * @param \Magento\Framework\Api\SortOrderBuilder $orderBuilder
      * @param array $data
      */
     public function __construct(
@@ -70,6 +75,7 @@ class Detail extends Template
         \Magento\User\Model\UserFactory $userFactory,
         \Magento\User\Model\ResourceModel\User $userResource,
         \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository,
+        \Magento\Framework\Api\SortOrderBuilder $orderBuilder,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -80,6 +86,7 @@ class Detail extends Template
         $this->userFactory = $userFactory;
         $this->userResource = $userResource;
         $this->customerRepository = $customerRepository;
+        $this->orderBuilder = $orderBuilder;
     }
 
     /**
@@ -112,6 +119,10 @@ class Detail extends Template
     {
         try {
             $this->searchCriteriaBuilder->addFilter(TicketReplyInterface::TICKET_ID, $this->getTickedId());
+            $sortOrder = $this->orderBuilder->create();
+            $sortOrder->setField('created_at');
+            $sortOrder->setDirection('DESC');
+            $this->searchCriteriaBuilder->addSortOrder($sortOrder);
             $searchCriteria = $this->searchCriteriaBuilder->create();
             $replies = $this->ticketReplyRepository->getList($searchCriteria)->getItems();
             return $replies;

@@ -10,7 +10,6 @@ namespace Inchoo\Ticket\Block;
 
 use Inchoo\Ticket\Api\Data\TicketInterface;
 use Inchoo\Ticket\Api\TicketRepositoryInterface;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Element\Template;
 
 class Ticket extends Template
