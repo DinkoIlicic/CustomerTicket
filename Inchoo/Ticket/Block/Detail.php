@@ -138,15 +138,7 @@ class Detail extends Template
      */
     public function getCustomerName($id)
     {
-        try {
-            $customer = $this->customerRepository->getById($id);
-            return ucfirst($customer->getFirstname()) . ' ' . ucfirst($customer->getLastname());
-        } catch (NoSuchEntityException $exception) {
-            $message = $exception->getMessage();
-        } catch (LocalizedException $exception) {
-            $message = $exception->getMessage();
-        }
-
+        $customer = $this->customerRepository->getById($id);
         return ucfirst($customer->getFirstname()) . ' ' . ucfirst($customer->getLastname());
     }
 
