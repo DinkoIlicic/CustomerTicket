@@ -97,6 +97,10 @@ class NewAction extends CustomerAction
                 TicketInterface::MESSAGE => $message
             ];
             $this->ticketRepository->addTicket($array);
+            $this->_eventManager->dispatch(
+                'inchoo_ticket_created',
+                ['ticketData' => $array]
+            );
             $this->messageManager->addSuccessMessage(__('Ticket created!'));
         } catch (\Exception $exception) {
             $this->messageManager->addErrorMessage(__('Ticket not created!'));

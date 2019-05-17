@@ -127,7 +127,7 @@ class Ticket extends Template
                 TicketInterface::WEBSITE_ID,
                 ['eq' => $this->storeManager->getStore()->getWebsiteId()]
             )->setOrder(
-                'created_at',
+                TicketInterface::CREATED_AT,
                 'DESC'
             );
 
