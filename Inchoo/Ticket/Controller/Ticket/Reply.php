@@ -82,7 +82,7 @@ class Reply extends CustomerAction
 
         $ticketId = (int)$this->request->getPostValue('id');
         $ticket = $this->validateAndReturnTicket($ticketId);
-        if (!$ticket) {
+        if (!$ticket || $ticket->getStatus()) {
             return $this->redirectToIndex();
         }
 
