@@ -8,11 +8,11 @@
 
 namespace Inchoo\Ticket\Block;
 
+use Inchoo\Ticket\Api\Data\TicketInterface;
 use Inchoo\Ticket\Api\Data\TicketReplyInterface;
 use Inchoo\Ticket\Api\TicketReplyRepositoryInterface;
 use Inchoo\Ticket\Api\TicketRepositoryInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Template;
 
 class Detail extends Template
@@ -120,7 +120,7 @@ class Detail extends Template
         try {
             $this->searchCriteriaBuilder->addFilter(TicketReplyInterface::TICKET_ID, $this->getTickedId());
             $sortOrder = $this->orderBuilder->create();
-            $sortOrder->setField('created_at');
+            $sortOrder->setField(TicketInterface::CREATED_AT);
             $sortOrder->setDirection('DESC');
             $this->searchCriteriaBuilder->addSortOrder($sortOrder);
             $searchCriteria = $this->searchCriteriaBuilder->create();
@@ -138,7 +138,10 @@ class Detail extends Template
      */
     public function getCustomerName($id)
     {
-        $customer = $this->customerRepository->getById($id);
+        try {
+            $customer = $this->customerRepository->getById($id);
+        } catch (\Exception $exception) {
+        }
         return ucfirst($customer->getFirstname()) . ' ' . ucfirst($customer->getLastname());
     }
 
