@@ -33,6 +33,10 @@ class MassDelete extends Action
     {
         $message = null;
         $data = $this->getRequest()->getParam('selected');
+        if (empty($data)) {
+            return $this->_redirect('ticket/ticket/');
+        }
+
         foreach ($data as $id) {
             try {
                 $this->ticketRepository->deleteById($id);
