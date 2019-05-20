@@ -7,7 +7,7 @@
             </action>
         </referenceBlock>
         <referenceContainer name="content">
-            <block class="Inchoo\Ticket\Block\Ticket" name="ticketList" template="Inchoo_Ticket::ticket_list.phtml" />
+            <block class="Inchoo\Ticket\Block\Ticket" name="ticketList" template="Inchoo_Ticket::ticket_list.phtml" cacheable="false"/>
         </referenceContainer>
     </body>
 </page>

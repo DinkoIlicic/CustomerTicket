@@ -13,5 +13,5 @@ The extension needs to have following features:
   - Tickets can have status: open/closed. New ticket is automatically open. Both administrator or customer can close a ticket.
 
 Additional:
-  - Admin gets email on new ticket (configurable in Magento Administration). Implement as seperate module that depends on           Ticket module.
+  - Admin gets email on new ticket (configurable in Magento Administration). Implement as seperate module that depends on Ticket module.
   - Implement up to two more features of your choice that you think would be usable on such extension.
