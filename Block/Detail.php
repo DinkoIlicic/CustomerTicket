@@ -90,6 +90,24 @@ class Detail extends Template
     }
 
     /**
+     * Return formatted Date for Europe/Zagreb timezone
+     *
+     * @param $date
+     * @return string
+     */
+    public function formatDateForPhtml($date)
+    {
+        return $this->formatDate(
+            $date,
+            3,
+            true,
+            'Europe/Zagreb'
+        );
+    }
+
+    /**
+     * Return Ticket Id
+     *
      * @return int
      */
     public function getTickedId()
@@ -98,6 +116,8 @@ class Detail extends Template
     }
 
     /**
+     * Return all tickets
+     *
      * @return \Inchoo\Ticket\Api\Data\TicketInterface|null
      */
     public function getTicketDetails()
@@ -113,6 +133,8 @@ class Detail extends Template
     }
 
     /**
+     * Return all replies for specific ticket
+     *
      * @return \Inchoo\Ticket\Api\Data\TicketReplyInterface[]|null
      */
     public function getReplies()
@@ -133,6 +155,8 @@ class Detail extends Template
     }
 
     /**
+     * Return customer name
+     *
      * @param $id
      * @return string|null
      */
@@ -146,6 +170,8 @@ class Detail extends Template
     }
 
     /**
+     * Return url for form
+     *
      * @return string
      */
     public function getPostUrl()
@@ -153,6 +179,12 @@ class Detail extends Template
         return $this->getUrl('ticket/ticket/reply');
     }
 
+    /**
+     * Return admin name
+     *
+     * @param $id
+     * @return string
+     */
     public function getAdminName($id)
     {
         $admin = $this->userFactory->create();

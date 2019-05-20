@@ -8,6 +8,7 @@
 
 namespace Inchoo\Ticket\Controller\Adminhtml\Ticket;
 
+use Inchoo\Ticket\Api\Data\TicketInterface;
 use Inchoo\Ticket\Api\TicketRepositoryInterface;
 use Magento\Backend\App\Action;
 
@@ -17,16 +18,30 @@ class MassClose extends Action
      * @var TicketRepositoryInterface
      */
     private $ticketRepository;
+    /**
+     * @var \Inchoo\Ticket\Model\ResourceModel\Ticket\CollectionFactory
+     */
+    private $ticketCollectionFactory;
 
+    /**
+     * MassClose constructor.
+     * @param Action\Context $context
+     * @param TicketRepositoryInterface $ticketRepository
+     * @param \Inchoo\Ticket\Model\ResourceModel\Ticket\CollectionFactory $ticketCollectionFactory
+     */
     public function __construct(
         Action\Context $context,
-        TicketRepositoryInterface $ticketRepository
+        TicketRepositoryInterface $ticketRepository,
+        \Inchoo\Ticket\Model\ResourceModel\Ticket\CollectionFactory $ticketCollectionFactory
     ) {
         parent::__construct($context);
         $this->ticketRepository = $ticketRepository;
+        $this->ticketCollectionFactory = $ticketCollectionFactory;
     }
 
     /**
+     * Closes all selected tickets and redirects to ticket index
+     *
      * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|string
      */
     public function execute()
@@ -37,9 +52,16 @@ class MassClose extends Action
             return $this->_redirect('ticket/ticket/');
         }
 
-        foreach ($data as $id) {
+        $allTickets = $this->ticketCollectionFactory->create()
+            ->addFieldToFilter(
+                TicketInterface::TICKET_ID,
+                ['ticket_id', $data]
+            );
+        foreach ($allTickets->getItems() as $ticket) {
             try {
-                $ticket = $this->ticketRepository->getById($id);
+                /**
+                 * @var $ticket TicketInterface
+                 */
                 $ticket->setStatus(true);
                 $this->ticketRepository->save($ticket);
             } catch (\Exception $e) {
@@ -47,9 +69,9 @@ class MassClose extends Action
             }
         }
 
-        if ($message === true) {
+        if ($message) {
             $this->messageManager->addSuccessMessage('Tickets closed');
-        } elseif ($message !== null and $message !== true) {
+        } elseif ($message !== null && !$message) {
             $this->messageManager->addErrorMessage($message);
         }
 

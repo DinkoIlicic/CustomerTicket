@@ -1,11 +1,6 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="customer_account"/>
     <body>
-        <referenceBlock name="page.main.title">
-            <action method="setPageTitle">
-                <argument translate="true" name="title" xsi:type="string">My Tickets</argument>
-            </action>
-        </referenceBlock>
         <referenceContainer name="content">
             <block class="Inchoo\Ticket\Block\Ticket" name="ticketList" template="Inchoo_Ticket::ticket_list.phtml" cacheable="false"/>
         </referenceContainer>

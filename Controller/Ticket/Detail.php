@@ -18,16 +18,6 @@ class Detail extends CustomerAction
     private $resultPageFactory;
 
     /**
-     * @var \Magento\Customer\Model\Session
-     */
-    private $session;
-
-    /**
-     * @var \Inchoo\Ticket\Api\TicketRepositoryInterface
-     */
-    private $ticketRepository;
-
-    /**
      * Detail constructor.
      * @param Context $context
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
@@ -44,10 +34,13 @@ class Detail extends CustomerAction
     ) {
         parent::__construct($context, $session, $url, $ticketRepository);
         $this->resultPageFactory = $resultPageFactory;
-        $this->session = $session;
-        $this->ticketRepository = $ticketRepository;
     }
 
+    /**
+     * Return page ticket detail index
+     *
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|\Magento\Framework\View\Result\Page
+     */
     public function execute()
     {
         $this->isCustomerLoggedIn();

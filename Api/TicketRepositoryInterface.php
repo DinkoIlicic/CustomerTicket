@@ -57,10 +57,4 @@ interface TicketRepositoryInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getList(SearchCriteriaInterface $searchCriteria);
-
-    /**
-     * @param array $array
-     * @return bool true on success
-     */
-    public function addTicket($array = []);
 }

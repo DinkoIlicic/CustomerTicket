@@ -6,11 +6,11 @@
 <?php if (!$block->getTicketDetails()->getStatus()): ?>
     <hr />
     <div>
-        <form action="<?php echo $block->escapeUrl($block->getPostUrl()) ?>" method="post" data-mage-init='{"validation":{}}'>
-            <label for="content" class="label"><?php echo __('Message'); ?></label>
+        <form action="<?= $block->escapeUrl($block->getPostUrl()) ?>" method="post" data-mage-init='{"validation":{}}'>
+            <label for="content" class="label"><?= __('Message'); ?></label>
             <textarea data-validate='{"required":true}' name="content" id="content" type="text"></textarea>
-            <input name="id" type="hidden" value="<?= $block->escapeHtml($block->getTicketDetails()->getId()) ?>"><br /><br />
-            <input type="submit" class="action submit primary" value="<?php echo __('Reply')?>">
+            <input name="id" type="hidden" value="<?= $block->getTicketDetails()->getId() ?>"><br /><br />
+            <input type="submit" class="action submit primary" value="<?= __('Reply')?>">
         </form>
     </div>
-<?php endif ?>
+<?php endif; ?>

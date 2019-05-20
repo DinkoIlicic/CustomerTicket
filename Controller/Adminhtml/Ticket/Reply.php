@@ -25,10 +25,6 @@ class Reply extends Action
      */
     private $ticketReplyResource;
     /**
-     * @var \Magento\Framework\Escaper
-     */
-    private $escaper;
-    /**
      * @var \Magento\Backend\Model\Auth\Session
      */
     private $authSession;
@@ -37,12 +33,20 @@ class Reply extends Action
      */
     private $ticketRepository;
 
+    /**
+     * Reply constructor.
+     * @param Action\Context $context
+     * @param \Magento\Framework\App\Request\Http $request
+     * @param \Inchoo\Ticket\Model\TicketReplyFactory $ticketReplyFactory
+     * @param \Inchoo\Ticket\Model\ResourceModel\TicketReply $ticketReplyResource
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository
+     */
     public function __construct(
         Action\Context $context,
         \Magento\Framework\App\Request\Http $request,
         \Inchoo\Ticket\Model\TicketReplyFactory $ticketReplyFactory,
         \Inchoo\Ticket\Model\ResourceModel\TicketReply $ticketReplyResource,
-        \Magento\Framework\Escaper $escaper,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository
     ) {
@@ -50,19 +54,19 @@ class Reply extends Action
         $this->request = $request;
         $this->ticketReplyFactory = $ticketReplyFactory;
         $this->ticketReplyResource = $ticketReplyResource;
-        $this->escaper = $escaper;
         $this->authSession = $authSession;
         $this->ticketRepository = $ticketRepository;
     }
 
     /**
+     * Creates reply and redirects back to the ticket detail
+     *
      * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|string
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function execute()
     {
         $ticketId = (int) $this->request->getPostValue('ticket_id');
-        $replyMessage = $this->escaper->escapeHtml($this->request->getPostValue('reply'));
+        $replyMessage = $this->request->getPostValue('reply');
         if (empty($replyMessage)) {
             $this->messageManager->addErrorMessage('Reply message empty!');
             return $this->_redirect('ticket/ticket/');

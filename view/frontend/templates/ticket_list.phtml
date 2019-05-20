@@ -7,18 +7,18 @@
 <div>
     <div>
         <h3>Create ticket</h3>
-        <form action="<?php echo $block->escapeUrl($block->getPostUrl()) ?>" method="post" data-mage-init='{"validation":{}}'>
-           <label for="title" class="label"><?php echo __('Subject'); ?></label>
+        <form action="<?= $block->escapeUrl($block->getPostUrl()) ?>" method="post" data-mage-init='{"validation":{}}'>
+           <label for="title" class="label"><?= __('Subject'); ?></label>
             <input data-validate='{"required":true, maxlength:254}' name="title" id="title" type="text"><br /><br />
-            <label for="content" class="label"><?php echo __('Message'); ?></label>
+            <label for="content" class="label"><?= __('Message'); ?></label>
             <textarea data-validate='{"required":true}' name="content" id="content" type="text"></textarea><br /><br />
-            <input type="submit" class="action submit primary" value="<?php echo __('Submit')?>">
+            <input type="submit" class="action submit primary" value="<?= __('Submit')?>">
         </form>
     </div><br /><br />
     <?php if ($block->getPagerHtml()): ?>
-        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+        <div class="order-products-toolbar toolbar bottom"><?= $block->getPagerHtml(); ?></div>
     <?php endif;
-    if ($block->getTicketCollection()->count() > 0):?>
+    if ($block->getTicketCollection()->getSize() > 0):?>
         <div class="table-wrapper orders-history">
             <table class="table">
                 <thead>
@@ -32,25 +32,19 @@
                     <?php foreach ($block->getTicketCollection() as $ticket): ?>
                         <tr>
                             <td>
-                                <a href="<?php echo $block->escapeUrl($block->getTicketDetailsUrl($ticket->getId())); ?>">
+                                <a href="<?= $block->escapeUrl($block->getTicketDetailsUrl($ticket->getId())); ?>">
                                    <?= $block->escapeHtml($ticket->getSubject()); ?>
                                 </a>
                             </td>
-                            <td><?php
-                                echo $block->formatDate(
-                                    $block->escapeHtml($block->getCreatedAt()),
-                                    3,
-                                    true,
-                                    'Europe/Zagreb'
-                                )?>
+                            <td><?= $block->escapeHtml($block->formatDateForPhtml($block->getCreatedAt())); ?>
                             </td>
                             <td><?php
-                                if ((bool)$ticket->getStatus() === false) {
+                                if (!$ticket->getStatus()):
                                     ?>
-                                    <a href="<?php echo $block->escapeUrl($block->getCloseUrl($ticket->getId())); ?>" class="action submit primary"><?php echo __('Close'); ?></a><?php
-                                } elseif ((bool)$ticket->getStatus() === true) {
+                                    <a href="<?= $block->escapeUrl($block->getCloseUrl($ticket->getId())); ?>" class="action submit primary"><?= __('Close'); ?></a><?php
+                                elseif ($ticket->getStatus()):
                                     echo __('Closed');
-                                }?>
+                                endif; ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

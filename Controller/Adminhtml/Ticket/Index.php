@@ -18,22 +18,17 @@ class Index extends Action
      */
     private $scopeConfig;
 
+    /**
+     * Index constructor.
+     * @param Action\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     */
     public function __construct(
         Action\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         parent::__construct($context);
         $this->scopeConfig = $scopeConfig;
-    }
-
-    /**
-     * Check the permission to run it
-     *
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Inchoo_Ticket::ticket');
     }
 
     /**

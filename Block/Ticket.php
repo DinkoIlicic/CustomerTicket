@@ -66,6 +66,24 @@ class Ticket extends Template
     }
 
     /**
+     * Return formatted Date for Europe/Zagreb timezone
+     *
+     * @param $date
+     * @return string
+     */
+    public function formatDateForPhtml($date)
+    {
+        return $this->formatDate(
+            $date,
+            3,
+            true,
+            'Europe/Zagreb'
+        );
+    }
+
+    /**
+     * Return url for form
+     *
      * @return string
      */
     public function getPostUrl()
@@ -74,6 +92,8 @@ class Ticket extends Template
     }
 
     /**
+     * Return url for form
+     *
      * @param int $id
      * @return string
      */
@@ -83,6 +103,8 @@ class Ticket extends Template
     }
 
     /**
+     * Return url for specific ticket
+     *
      * @param int $id
      * @return string
      */
@@ -91,6 +113,13 @@ class Ticket extends Template
         return $this->getUrl('ticket/ticket/detail/id/', ['id' => (int) $id]);
     }
 
+
+    /**
+     * Prepare layout for pager
+     *
+     * @return \Inchoo\Ticket\Model\ResourceModel\Ticket\Collection|Template
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
@@ -108,11 +137,22 @@ class Ticket extends Template
         return $tickets;
     }
 
+    /**
+     * Return child html for pager
+     *
+     * @return string
+     */
     public function getPagerHtml()
     {
         return $this->getChildHtml('pager');
     }
 
+    /**
+     * Return ticket collection for pager
+     *
+     * @return \Inchoo\Ticket\Model\ResourceModel\Ticket\Collection
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
     public function getTicketCollection()
     {
         $page = ($this->getRequest()->getParam('p')) ? $this->getRequest()->getParam('p') : 1;

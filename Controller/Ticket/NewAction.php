@@ -9,30 +9,14 @@
 namespace Inchoo\Ticket\Controller\Ticket;
 
 use Inchoo\Ticket\Api\Data\TicketInterface;
-use Inchoo\Ticket\Api\TicketRepositoryInterface;
 use Magento\Framework\App\Action\Context;
 
 class NewAction extends CustomerAction
 {
     /**
-     * @var \Magento\Customer\Model\Session
-     */
-    private $session;
-
-    /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     private $storeManager;
-
-    /**
-     * @var \Magento\Framework\Escaper
-     */
-    private $escaper;
-
-    /**
-     * @var TicketRepositoryInterface
-     */
-    private $ticketRepository;
 
     /**
      * @var \Magento\Framework\Data\Form\FormKey\Validator
@@ -42,37 +26,46 @@ class NewAction extends CustomerAction
      * @var \Magento\Framework\App\Request\Http
      */
     private $request;
+    /**
+     * @var \Inchoo\Ticket\Api\Data\TicketInterfaceFactory
+     */
+    private $ticketModelFactory;
 
     /**
      * NewAction constructor.
      * @param Context $context
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\Escaper $escaper
-     * @param TicketRepositoryInterface $ticketRepository
+     * @param \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository
      * @param \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
      * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Framework\App\Request\Http $request
+     * @param \Inchoo\Ticket\Api\Data\TicketInterfaceFactory $ticketModelFactory
      */
     public function __construct(
         Context $context,
         \Magento\Customer\Model\Session $session,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\Escaper $escaper,
-        TicketRepositoryInterface $ticketRepository,
+        \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository,
         \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
         \Magento\Framework\UrlInterface $url,
-        \Magento\Framework\App\Request\Http $request
+        \Magento\Framework\App\Request\Http $request,
+        \Inchoo\Ticket\Api\Data\TicketInterfaceFactory $ticketModelFactory
     ) {
         parent::__construct($context, $session, $url, $ticketRepository);
-        $this->session = $session;
         $this->storeManager = $storeManager;
-        $this->escaper = $escaper;
-        $this->ticketRepository = $ticketRepository;
         $this->formKeyValidator = $formKeyValidator;
         $this->request = $request;
+        $this->ticketModelFactory = $ticketModelFactory;
     }
 
+    /**
+     * Function checks if customer is logged in, if the form key is valid and if subject and message are not empty.
+     * If everything is right, create ticket object, set the parameters, save the ticket and dispatch event when
+     * ticket is saved. Redirect customer back to ticket index page.
+     *
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface
+     */
     public function execute()
     {
         $this->isCustomerLoggedIn();
@@ -83,8 +76,8 @@ class NewAction extends CustomerAction
         try {
             $customerId = (int) $this->session->getCustomerId();
             $websiteId = (int) $this->storeManager->getStore()->getWebsiteId();
-            $subject = $this->escaper->escapeHtml($this->request->getPostValue('title'));
-            $message = $this->escaper->escapeHtml($this->request->getPostValue('content'));
+            $subject = $this->request->getPostValue('title');
+            $message = $this->request->getPostValue('content');
             if (empty($subject) || empty($message)) {
                 $this->messageManager->addErrorMessage('Form fields cannot be empty!');
                 return $this->redirectToIndex();
@@ -96,7 +89,13 @@ class NewAction extends CustomerAction
                 TicketInterface::SUBJECT => $subject,
                 TicketInterface::MESSAGE => $message
             ];
-            $this->ticketRepository->addTicket($array);
+
+            $ticket = $this->ticketModelFactory->create();
+            $ticket->setCustomerId($array[TicketInterface::CUSTOMER_ID]);
+            $ticket->setWebsiteId($array[TicketInterface::WEBSITE_ID]);
+            $ticket->setSubject($array[TicketInterface::SUBJECT]);
+            $ticket->setMessage($array[TicketInterface::MESSAGE]);
+            $this->ticketRepository->save($ticket);
             $this->_eventManager->dispatch(
                 'inchoo_ticket_created',
                 ['ticketData' => $array]

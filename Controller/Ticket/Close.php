@@ -14,16 +14,6 @@ use Magento\Framework\App\Action\Context;
 class Close extends CustomerAction
 {
     /**
-     * @var TicketRepositoryInterface
-     */
-    private $ticketRepository;
-
-    /**
-     * @var \Magento\Customer\Model\Session
-     */
-    private $session;
-
-    /**
      * Close constructor.
      * @param Context $context
      * @param TicketRepositoryInterface $ticketRepository
@@ -38,9 +28,13 @@ class Close extends CustomerAction
     ) {
         parent::__construct($context, $session, $url, $ticketRepository);
         $this->ticketRepository = $ticketRepository;
-        $this->session = $session;
     }
 
+    /**
+     * Closes ticket for customer and returns him to my tickets section
+     *
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface
+     */
     public function execute()
     {
         $this->isCustomerLoggedIn();

@@ -144,7 +144,6 @@ class TicketReplyRepository implements TicketReplyRepositoryInterface
      *
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return \Inchoo\Ticket\Api\Data\TicketReplySearchResultsInterface
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getList(SearchCriteriaInterface $searchCriteria)
     {
@@ -159,25 +158,5 @@ class TicketReplyRepository implements TicketReplyRepositoryInterface
         $searchResults->setItems($collection->getItems());
         $searchResults->setTotalCount($collection->getSize());
         return $searchResults;
-    }
-
-    /**
-     * @param array $array
-     * @return bool|void
-     * @throws CouldNotSaveException
-     */
-    public function addReply($array = [])
-    {
-        try {
-            /**
-             * @var TicketReplyInterface $reply
-             */
-            $reply = $this->ticketReplyModelFactory->create();
-            $reply->setMessage($array[TicketReplyInterface::MESSAGE]);
-            $reply->setTickedId($array[TicketReplyInterface::TICKET_ID]);
-            $this->save($reply);
-        } catch (\Exception $exception) {
-            throw new CouldNotSaveException(__($exception->getMessage()));
-        }
     }
 }

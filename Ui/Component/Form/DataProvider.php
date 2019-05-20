@@ -40,6 +40,8 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
     }
 
     /**
+     * Returns data for the specific ticket and adds customer name to it.
+     *
      * {@inheritdoc}
      */
     public function getData()
@@ -55,9 +57,19 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         return $data;
     }
 
+    /**
+     * Returns customer name
+     *
+     * @param $id
+     * @return string
+     */
     public function getCustomerName($id)
     {
-        $customer = $this->customerRepository->getById($id);
+        try {
+            $customer = $this->customerRepository->getById($id);
+        } catch (\Exception $exception) {
+        }
+
         return ucfirst($customer->getFirstname()) . ' ' . ucfirst($customer->getLastname());
     }
 }

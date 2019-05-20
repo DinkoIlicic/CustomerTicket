@@ -61,9 +61,19 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         return $data;
     }
 
+    /**
+     * Return customer name
+     *
+     * @param $id
+     * @return string
+     */
     public function getCustomerName($id)
     {
-        $customer = $this->customerRepository->getById($id);
+        try {
+            $customer = $this->customerRepository->getById($id);
+        } catch (\Exception $exception) {
+        }
+
         return ucfirst($customer->getFirstname()) . ' ' . ucfirst($customer->getLastname());
     }
 }
