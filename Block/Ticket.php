@@ -39,6 +39,11 @@ class Ticket extends Template
     private $collection;
 
     /**
+     * @var \Inchoo\Ticket\Model\ResourceModel\Ticket\Collection
+     */
+    private $ticketCollection;
+
+    /**
      * Ticket constructor.
      * @param Template\Context $context
      * @param TicketRepositoryInterface $ticketRepository
@@ -113,7 +118,6 @@ class Ticket extends Template
         return $this->getUrl('ticket/ticket/detail/id/', ['id' => (int) $id]);
     }
 
-
     /**
      * Prepare layout for pager
      *
@@ -123,18 +127,18 @@ class Ticket extends Template
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if ($tickets = $this->getTicketCollection()) {
+        if ($this->getTicketCollection()) {
             $pager = $this->getLayout()->createBlock(
                 \Magento\Theme\Block\Html\Pager::class,
                 'ticket.pager'
             )->setAvailableLimit([5 => 5, 10 => 10, 15 => 15, 20 => 20])
                 ->setShowPerPage(true)->setCollection(
-                    $tickets
+                    $this->getTicketCollection()
                 );
             $this->setChild('pager', $pager);
-            $tickets->load();
+            $this->getTicketCollection()->load();
         }
-        return $tickets;
+        return $this;
     }
 
     /**
@@ -148,18 +152,18 @@ class Ticket extends Template
     }
 
     /**
-     * Return ticket collection for pager
+     * Return ticket collection for pager. Save it inside property ticketCollection. If called, return the existing.
      *
      * @return \Inchoo\Ticket\Model\ResourceModel\Ticket\Collection
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getTicketCollection()
     {
-        $page = ($this->getRequest()->getParam('p')) ? $this->getRequest()->getParam('p') : 1;
-        $pageSize = ($this->getRequest()->getParam('limit')) ? $this->getRequest(
-        )->getParam('limit') : 5;
+        if ($this->ticketCollection !== null) {
+            return $this->ticketCollection;
+        }
 
-        $tickets = $this->collection->create()
+        $this->ticketCollection = $this->collection->create()
             ->addFieldToFilter(
                 TicketInterface::CUSTOMER_ID,
                 ['eq' => $this->session->getCustomerId()]
@@ -171,8 +175,6 @@ class Ticket extends Template
                 'DESC'
             );
 
-        $tickets->setPageSize($pageSize);
-        $tickets->setCurPage($page);
-        return $tickets;
+        return $this->ticketCollection;
     }
 }
