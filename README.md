@@ -1,5 +1,5 @@
-# CustomerTicket
-Customer Ticket magento 2 extension
+# Ticket
+Ticket magento 2 extension
 
 
 The extension needs to have following features:
