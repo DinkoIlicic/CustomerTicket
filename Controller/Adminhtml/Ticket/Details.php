@@ -13,6 +13,8 @@ use Magento\Framework\Controller\ResultFactory;
 
 class Details extends Action
 {
+    const ADMIN_RESOURCE = 'Inchoo_Ticket::ticket';
+
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */

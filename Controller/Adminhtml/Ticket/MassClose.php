@@ -14,6 +14,8 @@ use Magento\Backend\App\Action;
 
 class MassClose extends Action
 {
+    const ADMIN_RESOURCE = 'Inchoo_Ticket::ticket';
+
     /**
      * @var TicketRepositoryInterface
      */
