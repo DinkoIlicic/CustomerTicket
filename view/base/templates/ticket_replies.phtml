@@ -10,9 +10,9 @@
     <?php foreach ($block->getReplies() as $reply):?>
         <div style="text-align:<?php
             if ($reply->getAdminId()):
-                echo "right";
+                echo 'right';
             else:
-                echo "left";
+                echo 'left';
             endif;?>
         ">
             <p><?= $block->escapeHtml($block->formatDateForPhtml($block->getCreationTime())) . ' ';
