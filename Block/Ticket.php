@@ -11,6 +11,7 @@ namespace Inchoo\Ticket\Block;
 use Inchoo\Ticket\Api\Data\TicketInterface;
 use Inchoo\Ticket\Api\TicketRepositoryInterface;
 use Magento\Framework\View\Element\Template;
+use Magento\Customer\Model\Session;
 
 class Ticket extends Template
 {
@@ -25,7 +26,7 @@ class Ticket extends Template
     private $searchCriteriaBuilder;
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var Session
      */
     private $session;
 
@@ -48,7 +49,7 @@ class Ticket extends Template
      * @param Template\Context $context
      * @param TicketRepositoryInterface $ticketRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Magento\Customer\Model\Session $session
+     * @param Session $session
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Inchoo\Ticket\Model\ResourceModel\Ticket\CollectionFactory $collection
      * @param array $data
@@ -57,7 +58,7 @@ class Ticket extends Template
         Template\Context $context,
         TicketRepositoryInterface $ticketRepository,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
-        \Magento\Customer\Model\Session $session,
+        Session $session,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Inchoo\Ticket\Model\ResourceModel\Ticket\CollectionFactory $collection,
         array $data = []

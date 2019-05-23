@@ -10,6 +10,7 @@ namespace Inchoo\Ticket\Controller\Ticket;
 
 use Inchoo\Ticket\Api\Data\TicketInterface;
 use Magento\Framework\App\Action\Context;
+use Magento\Customer\Model\Session;
 
 class NewAction extends CustomerAction
 {
@@ -23,7 +24,7 @@ class NewAction extends CustomerAction
      */
     private $formKeyValidator;
     /**
-     * @var \Magento\Framework\App\Request\Http
+     * @var \Magento\Framework\App\Request\Http\Proxy
      */
     private $request;
     /**
@@ -34,22 +35,22 @@ class NewAction extends CustomerAction
     /**
      * NewAction constructor.
      * @param Context $context
-     * @param \Magento\Customer\Model\Session $session
+     * @param Session $session
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository
      * @param \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
      * @param \Magento\Framework\UrlInterface $url
-     * @param \Magento\Framework\App\Request\Http $request
+     * @param \Magento\Framework\App\Request\Http\Proxy $request
      * @param \Inchoo\Ticket\Api\Data\TicketInterfaceFactory $ticketModelFactory
      */
     public function __construct(
         Context $context,
-        \Magento\Customer\Model\Session $session,
+        Session $session,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository,
         \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
         \Magento\Framework\UrlInterface $url,
-        \Magento\Framework\App\Request\Http $request,
+        \Magento\Framework\App\Request\Http\Proxy $request,
         \Inchoo\Ticket\Api\Data\TicketInterfaceFactory $ticketModelFactory
     ) {
         parent::__construct($context, $session, $url, $ticketRepository);
@@ -83,22 +84,15 @@ class NewAction extends CustomerAction
                 return $this->redirectToIndex();
             }
 
-            $array = [
-                TicketInterface::CUSTOMER_ID => $customerId,
-                TicketInterface::WEBSITE_ID => $websiteId,
-                TicketInterface::SUBJECT => $subject,
-                TicketInterface::MESSAGE => $message
-            ];
-
             $ticket = $this->ticketModelFactory->create();
-            $ticket->setCustomerId($array[TicketInterface::CUSTOMER_ID]);
-            $ticket->setWebsiteId($array[TicketInterface::WEBSITE_ID]);
-            $ticket->setSubject($array[TicketInterface::SUBJECT]);
-            $ticket->setMessage($array[TicketInterface::MESSAGE]);
+            $ticket->setCustomerId($customerId);
+            $ticket->setWebsiteId($websiteId);
+            $ticket->setSubject($subject);
+            $ticket->setMessage($message);
             $this->ticketRepository->save($ticket);
             $this->_eventManager->dispatch(
                 'inchoo_ticket_created',
-                ['ticketData' => $array]
+                ['ticketData' => $ticket]
             );
             $this->messageManager->addSuccessMessage(__('Ticket created!'));
         } catch (\Exception $exception) {

@@ -10,6 +10,7 @@ namespace Inchoo\Ticket\Controller\Ticket;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
+use Magento\Customer\Model\Session;
 
 abstract class CustomerAction extends Action
 {
@@ -31,13 +32,13 @@ abstract class CustomerAction extends Action
     /**
      * CustomerAction constructor.
      * @param Context $context
-     * @param \Magento\Customer\Model\Session $session
+     * @param Session $session
      * @param \Magento\Framework\UrlInterface $url
      * @param \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository
      */
     public function __construct(
         Context $context,
-        \Magento\Customer\Model\Session $session,
+        Session $session,
         \Magento\Framework\UrlInterface $url,
         \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository
     ) {

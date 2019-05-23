@@ -10,6 +10,7 @@ namespace Inchoo\Ticket\Controller\Ticket;
 
 use Inchoo\Ticket\Api\TicketRepositoryInterface;
 use Magento\Framework\App\Action\Context;
+use Magento\Customer\Model\Session;
 
 class Close extends CustomerAction
 {
@@ -17,13 +18,13 @@ class Close extends CustomerAction
      * Close constructor.
      * @param Context $context
      * @param TicketRepositoryInterface $ticketRepository
-     * @param \Magento\Customer\Model\Session $session
+     * @param Session $session
      * @param \Magento\Framework\UrlInterface $url
      */
     public function __construct(
         Context $context,
         TicketRepositoryInterface $ticketRepository,
-        \Magento\Customer\Model\Session $session,
+        Session $session,
         \Magento\Framework\UrlInterface $url
     ) {
         parent::__construct($context, $session, $url, $ticketRepository);

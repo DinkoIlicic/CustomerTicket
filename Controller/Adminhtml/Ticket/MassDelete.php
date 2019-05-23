@@ -48,7 +48,6 @@ class MassDelete extends Action
      */
     public function execute()
     {
-        $message = null;
         $data = $this->getRequest()->getParam('selected');
         if (empty($data)) {
             return $this->_redirect('ticket/ticket/');
@@ -59,20 +58,13 @@ class MassDelete extends Action
                 TicketInterface::TICKET_ID,
                 ['ticket_id', $data]
             );
-        foreach ($allTickets->getItems() as $ticket) {
-            try {
-                $this->ticketRepository->delete($ticket);
-            } catch (\Exception $e) {
-                return $message = $e->getMessage();
-            }
-        }
 
-        if ($message === true) {
-            $this->messageManager->addSuccessMessage('Tickets closed');
-        } elseif ($message !== null and $message !== true) {
-            $this->messageManager->addErrorMessage($message);
+        try {
+            $allTickets->walk('delete');
+            $this->messageManager->addSuccessMessage('Tickets deleted');
+        } catch (\Exception $e) {
+            $this->messageManager->addSuccessMessage('Problem occurred');
         }
-
         return $this->_redirect('ticket/ticket/');
     }
 }

@@ -6,23 +6,23 @@
 ?>
 <hr />
 <div class="col">
-    <p><?= __('Replies'); ?>:</p>
-    <?php foreach ($block->getReplies() as $reply):?>
+    <p><?php echo $block->escapeHtml(__('Replies')); ?>:</p>
+    <?php foreach ($block->getReplies() as $reply) :?>
         <div style="text-align:<?php
-            if ($reply->getAdminId()):
-                echo 'right';
-            else:
-                echo 'left';
-            endif;?>
+        if ($reply->getAdminId()) :
+            echo 'right';
+        else :
+            echo 'left';
+        endif;?>
         ">
-            <p><?= $block->escapeHtml($block->formatDateForPhtml($block->getCreationTime())) . ' ';
-                if ($reply->getAdminId() !== null):
-                    echo $block->getAdminName($reply->getAdminId()) . ':';
-                else:
-                    echo $block->escapeHtml($block->getCustomerName($block->getTicketDetails()->getCustomerId())) . ':';
-                endif; ?>
+            <p><?php echo $block->escapeHtml($block->formatDateForPhtml($block->getCreationTime())) . ' ';
+            if ($reply->getAdminId() !== null) :
+                echo $block->escapeHtml($block->getAdminName($reply->getAdminId())) . ':';
+            else :
+                echo $block->escapeHtml($block->getCustomerName($block->getTicketDetails()->getCustomerId())) . ':';
+            endif; ?>
             </p>
-            <p><?= $block->escapeHtml($reply->getMessage()); ?></>
+            <p><?php echo $block->escapeHtml($reply->getMessage()); ?></>
         </div><br />
     <?php endforeach; ?>
 </div>

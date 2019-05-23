@@ -10,6 +10,7 @@ namespace Inchoo\Ticket\Controller\Ticket;
 
 use Inchoo\Ticket\Api\TicketReplyRepositoryInterface;
 use Magento\Framework\App\Action\Context;
+use Magento\Customer\Model\Session;
 
 class Reply extends CustomerAction
 {
@@ -24,7 +25,7 @@ class Reply extends CustomerAction
     private $formKeyValidator;
 
     /**
-     * @var \Magento\Framework\App\Request\Http
+     * @var \Magento\Framework\App\Request\Http\Proxy
      */
     private $request;
     /**
@@ -35,22 +36,22 @@ class Reply extends CustomerAction
     /**
      * Reply constructor.
      * @param Context $context
-     * @param \Magento\Customer\Model\Session $session
+     * @param Session $session
      * @param TicketReplyRepositoryInterface $replyRepository
      * @param \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
      * @param \Magento\Framework\UrlInterface $url
      * @param \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository
-     * @param \Magento\Framework\App\Request\Http $request
+     * @param \Magento\Framework\App\Request\Http\Proxy $request
      * @param \Inchoo\Ticket\Api\Data\TicketReplyInterfaceFactory $ticketReplyModelFactory
      */
     public function __construct(
         Context $context,
-        \Magento\Customer\Model\Session $session,
+        Session $session,
         TicketReplyRepositoryInterface $replyRepository,
         \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
         \Magento\Framework\UrlInterface $url,
         \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository,
-        \Magento\Framework\App\Request\Http $request,
+        \Magento\Framework\App\Request\Http\Proxy $request,
         \Inchoo\Ticket\Api\Data\TicketReplyInterfaceFactory $ticketReplyModelFactory
     ) {
         parent::__construct($context, $session, $url, $ticketRepository);

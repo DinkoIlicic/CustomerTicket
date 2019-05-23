@@ -14,6 +14,7 @@ use Inchoo\Ticket\Api\TicketReplyRepositoryInterface;
 use Inchoo\Ticket\Api\TicketRepositoryInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Element\Template;
+use Magento\Customer\Model\Session;
 
 class Detail extends Template
 {
@@ -33,7 +34,7 @@ class Detail extends Template
     private $searchCriteriaBuilder;
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var Session
      */
     private $session;
     /**
@@ -59,7 +60,7 @@ class Detail extends Template
      * @param TicketRepositoryInterface $ticketRepository
      * @param TicketReplyRepositoryInterface $ticketReplyRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Magento\Customer\Model\Session $session
+     * @param Session $session
      * @param \Magento\User\Model\UserFactory $userFactory
      * @param \Magento\User\Model\ResourceModel\User $userResource
      * @param \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository
@@ -71,7 +72,7 @@ class Detail extends Template
         TicketRepositoryInterface $ticketRepository,
         TicketReplyRepositoryInterface $ticketReplyRepository,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
-        \Magento\Customer\Model\Session $session,
+        Session $session,
         \Magento\User\Model\UserFactory $userFactory,
         \Magento\User\Model\ResourceModel\User $userResource,
         \Magento\Customer\Model\ResourceModel\CustomerRepository $customerRepository,
@@ -165,6 +166,7 @@ class Detail extends Template
         try {
             $customer = $this->customerRepository->getById($id);
         } catch (\Exception $exception) {
+            $errormsg = $exception->getMessage();
         }
         return ucfirst($customer->getFirstname()) . ' ' . ucfirst($customer->getLastname());
     }

@@ -48,7 +48,6 @@ class MassClose extends Action
      */
     public function execute()
     {
-        $message = null;
         $data = $this->getRequest()->getParam('selected');
         if (empty($data)) {
             return $this->_redirect('ticket/ticket/');
@@ -59,24 +58,13 @@ class MassClose extends Action
                 TicketInterface::TICKET_ID,
                 ['ticket_id', $data]
             );
-        foreach ($allTickets->getItems() as $ticket) {
-            try {
-                /**
-                 * @var $ticket TicketInterface
-                 */
-                $ticket->setStatus(true);
-                $this->ticketRepository->save($ticket);
-            } catch (\Exception $e) {
-                return $message = $e->getMessage();
-            }
-        }
 
-        if ($message) {
+        try {
+            $allTickets->setDataToAll('status', true)->save();
             $this->messageManager->addSuccessMessage('Tickets closed');
-        } elseif ($message !== null && !$message) {
-            $this->messageManager->addErrorMessage($message);
+        } catch (\Exception $e) {
+            $this->messageManager->addSuccessMessage('Problem occurred');
         }
-
         return $this->_redirect('ticket/ticket/');
     }
 }
