@@ -40,7 +40,7 @@ if ($block->getTicketCollection()->getSize() > 0) :?>
                             <?php echo $block->escapeHtml($ticket->getSubject()); ?>
                         </a>
                     </td>
-                    <td><?php echo $block->escapeHtml($block->formatDateForPhtml($block->getCreatedAt())); ?>
+                    <td><?php echo $block->escapeHtml($block->formatDateForPhtml($ticket->getCreatedAt())); ?>
                     </td>
                     <td><?php
                     if (!$ticket->getStatus()) :

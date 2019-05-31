@@ -15,7 +15,7 @@
             echo 'left';
         endif;?>
         ">
-            <p><?php echo $block->escapeHtml($block->formatDateForPhtml($block->getCreationTime())) . ' ';
+            <p><?php echo $block->escapeHtml($block->formatDateForPhtml($reply->getCreatedAt())) . ' ';
             if ($reply->getAdminId() !== null) :
                 echo $block->escapeHtml($block->getAdminName($reply->getAdminId())) . ':';
             else :
