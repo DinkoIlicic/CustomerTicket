@@ -6,7 +6,7 @@
 ?>
 <hr />
 <div class="col">
-    <p><?php echo $block->escapeHtml(__('Replies')); ?>:</p>
+    <p><?= $block->escapeHtml(__('Replies')); ?>:</p>
     <?php foreach ($block->getReplies() as $reply) :?>
         <div style="text-align:<?php
         if ($reply->getAdminId()) :
@@ -15,14 +15,14 @@
             echo 'left';
         endif;?>
         ">
-            <p><?php echo $block->escapeHtml($block->formatDateForPhtml($reply->getCreatedAt())) . ' ';
+            <p><?= $block->escapeHtml($block->formatDateForPhtml($reply->getCreatedAt())) . ' ';
             if ($reply->getAdminId() !== null) :
                 echo $block->escapeHtml($block->getAdminName($reply->getAdminId())) . ':';
             else :
                 echo $block->escapeHtml($block->getCustomerName($block->getTicketDetails()->getCustomerId())) . ':';
             endif; ?>
             </p>
-            <p><?php echo $block->escapeHtml($reply->getMessage()); ?></>
+            <p><?= $block->escapeHtml($reply->getMessage()); ?></>
         </div><br />
     <?php endforeach; ?>
 </div>

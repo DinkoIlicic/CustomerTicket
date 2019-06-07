@@ -8,46 +8,44 @@
 <div>
     <div>
         <h3>Create ticket</h3>
-        <form action="<?php echo $block->escapeUrl($block->getPostUrl()) ?>"
+        <form action="<?= $block->escapeUrl($block->getPostUrl()) ?>"
               method="post" data-mage-init='{"validation":{}}'>
-           <label for="title" class="label"><?php echo $block->escapeHtml(__('Subject')); ?></label>
+           <label for="title" class="label"><?= $block->escapeHtml(__('Subject')); ?></label>
             <input data-validate='{"required":true, maxlength:254}' name="title" id="title" type="text"><br /><br />
-            <label for="content" class="label"><?php echo $block->escapeHtml(__('Message')); ?></label>
+            <label for="content" class="label"><?= $block->escapeHtml(__('Message')); ?></label>
             <textarea data-validate='{"required":true}' name="content" id="content" type="text"></textarea><br /><br />
-            <input type="submit" class="action submit primary" value="<?php echo $block->escapeHtml(__('Submit'))?>">
+            <input type="submit" class="action submit primary" value="<?= $block->escapeHtml(__('Submit'))?>">
         </form>
     </div><br /><br />
     <?php if ($block->getPagerHtml()) : ?>
-        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+        <div class="order-products-toolbar toolbar bottom"><?= $block->getPagerHtml(); ?></div>
     <?php endif;
-if ($block->getTicketCollection()->getSize() > 0) :?>
+    if ($block->getTicketCollection()->getSize() > 0) :?>
     <div class="table-wrapper orders-history">
         <table class="table">
             <thead>
                 <tr>
-                    <th><?php echo $block->escapeHtml(__('Subject'))?></th>
-                    <th><?php echo $block->escapeHtml(__('Created at'))?></th>
-                    <th><?php echo $block->escapeHtml(__('Status'))?></th>
+                    <th><?= $block->escapeHtml(__('Subject'))?></th>
+                    <th><?= $block->escapeHtml(__('Created at'))?></th>
+                    <th><?= $block->escapeHtml(__('Status'))?></th>
                 </tr>
             </thead>
             <tbody>
             <?php foreach ($block->getTicketCollection() as $ticket) : ?>
                 <tr>
                     <td>
-                        <a href="<?php echo $block->escapeUrl(
-                            $block->getTicketDetailsUrl($ticket->getId())
-                        ); ?>">
-                            <?php echo $block->escapeHtml($ticket->getSubject()); ?>
+                        <a href="<?= $block->escapeUrl($block->getTicketDetailsUrl($ticket->getId())); ?>">
+                            <?= $block->escapeHtml($ticket->getSubject()); ?>
                         </a>
                     </td>
-                    <td><?php echo $block->escapeHtml($block->formatDateForPhtml($ticket->getCreatedAt())); ?>
+                    <td><?= $block->escapeHtml($block->formatDateForPhtml($ticket->getCreatedAt())); ?>
                     </td>
                     <td><?php
                     if (!$ticket->getStatus()) :
                         ?>
-                        <a href="<?php echo $block->escapeUrl($block->getCloseUrl($ticket->getId())); ?>"
+                        <a href="<?= $block->escapeUrl($block->getCloseUrl($ticket->getId())); ?>"
                             class="action submit primary">
-                            <?php echo $block->escapeHtml(__('Close')); ?>
+                            <?= $block->escapeHtml(__('Close')); ?>
                             </a><?php
                     elseif ($ticket->getStatus()) :
                         echo $block->escapeHtml(__('Closed'));

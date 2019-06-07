@@ -16,6 +16,10 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Element\Template;
 use Magento\Customer\Model\Session;
 
+/**
+ * Class Detail
+ * @package Inchoo\Ticket\Block
+ */
 class Detail extends Template
 {
     /**

@@ -10,6 +10,10 @@ namespace Inchoo\Ticket\Model;
 
 use Inchoo\Ticket\Api\Data\TicketReplyInterface;
 
+/**
+ * Class TicketReply
+ * @package Inchoo\Ticket\Model
+ */
 class TicketReply extends \Magento\Framework\Model\AbstractModel implements TicketReplyInterface
 {
     /**

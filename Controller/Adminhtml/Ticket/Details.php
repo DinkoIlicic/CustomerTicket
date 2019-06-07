@@ -11,6 +11,10 @@ namespace Inchoo\Ticket\Controller\Adminhtml\Ticket;
 use Magento\Backend\App\Action;
 use Magento\Framework\Controller\ResultFactory;
 
+/**
+ * Class Details
+ * @package Inchoo\Ticket\Controller\Adminhtml\Ticket
+ */
 class Details extends Action
 {
     const ADMIN_RESOURCE = 'Inchoo_Ticket::ticket';

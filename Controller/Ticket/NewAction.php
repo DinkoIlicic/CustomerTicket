@@ -12,6 +12,10 @@ use Inchoo\Ticket\Api\Data\TicketInterface;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
 
+/**
+ * Class NewAction
+ * @package Inchoo\Ticket\Controller\Ticket
+ */
 class NewAction extends CustomerAction
 {
     /**
@@ -24,7 +28,7 @@ class NewAction extends CustomerAction
      */
     private $formKeyValidator;
     /**
-     * @var \Magento\Framework\App\Request\Http\Proxy
+     * @var \Magento\Framework\App\Request\Http
      */
     private $request;
     /**
@@ -40,7 +44,7 @@ class NewAction extends CustomerAction
      * @param \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository
      * @param \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
      * @param \Magento\Framework\UrlInterface $url
-     * @param \Magento\Framework\App\Request\Http\Proxy $request
+     * @param \Magento\Framework\App\Request\Http $request
      * @param \Inchoo\Ticket\Api\Data\TicketInterfaceFactory $ticketModelFactory
      */
     public function __construct(
@@ -50,7 +54,7 @@ class NewAction extends CustomerAction
         \Inchoo\Ticket\Api\TicketRepositoryInterface $ticketRepository,
         \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
         \Magento\Framework\UrlInterface $url,
-        \Magento\Framework\App\Request\Http\Proxy $request,
+        \Magento\Framework\App\Request\Http $request,
         \Inchoo\Ticket\Api\Data\TicketInterfaceFactory $ticketModelFactory
     ) {
         parent::__construct($context, $session, $url, $ticketRepository);

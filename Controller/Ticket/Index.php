@@ -11,6 +11,10 @@ namespace Inchoo\Ticket\Controller\Ticket;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
 
+/**
+ * Class Index
+ * @package Inchoo\Ticket\Controller\Ticket
+ */
 class Index extends CustomerAction
 {
     /**

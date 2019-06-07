@@ -10,6 +10,10 @@ namespace Inchoo\Ticket\Ui\Component\Listing\Column;
 
 use Magento\Ui\Component\Listing\Columns\Column;
 
+/**
+ * Class DetailsActions
+ * @package Inchoo\Ticket\Ui\Component\Listing\Column
+ */
 class DetailsActions extends Column
 {
     /**

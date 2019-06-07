@@ -12,6 +12,10 @@ use Inchoo\Ticket\Api\Data\TicketInterface;
 use Inchoo\Ticket\Api\TicketRepositoryInterface;
 use Magento\Backend\App\Action;
 
+/**
+ * Class MassDelete
+ * @package Inchoo\Ticket\Controller\Adminhtml\Ticket
+ */
 class MassDelete extends Action
 {
     const ADMIN_RESOURCE = 'Inchoo_Ticket::ticket';

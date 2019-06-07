@@ -11,6 +11,10 @@ namespace Inchoo\Ticket\Controller\Adminhtml\Ticket;
 use Magento\Backend\App\Action;
 use Magento\Framework\Controller\ResultFactory;
 
+/**
+ * Class Index
+ * @package Inchoo\Ticket\Controller\Adminhtml\Ticket
+ */
 class Index extends Action
 {
     const ADMIN_RESOURCE = 'Inchoo_Ticket::ticket';

@@ -12,6 +12,10 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
 
+/**
+ * Class CustomerAction
+ * @package Inchoo\Ticket\Controller\Ticket
+ */
 abstract class CustomerAction extends Action
 {
     /**

@@ -12,6 +12,10 @@ use Inchoo\Ticket\Api\Data\TicketInterface;
 use Inchoo\Ticket\Api\TicketRepositoryInterface;
 use Magento\Backend\App\Action;
 
+/**
+ * Class MassClose
+ * @package Inchoo\Ticket\Controller\Adminhtml\Ticket
+ */
 class MassClose extends Action
 {
     const ADMIN_RESOURCE = 'Inchoo_Ticket::ticket';

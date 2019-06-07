@@ -13,6 +13,10 @@ use Inchoo\Ticket\Api\TicketRepositoryInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Customer\Model\Session;
 
+/**
+ * Class Ticket
+ * @package Inchoo\Ticket\Block
+ */
 class Ticket extends Template
 {
     /**

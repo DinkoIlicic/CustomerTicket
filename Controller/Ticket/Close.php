@@ -12,6 +12,10 @@ use Inchoo\Ticket\Api\TicketRepositoryInterface;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
 
+/**
+ * Class Close
+ * @package Inchoo\Ticket\Controller\Ticket
+ */
 class Close extends CustomerAction
 {
     /**

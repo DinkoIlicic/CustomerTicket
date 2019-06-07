@@ -11,12 +11,16 @@ namespace Inchoo\Ticket\Controller\Adminhtml\Ticket;
 use Magento\Backend\App\Action;
 use Magento\Backend\Model\Auth\Session;
 
+/**
+ * Class Reply
+ * @package Inchoo\Ticket\Controller\Adminhtml\Ticket
+ */
 class Reply extends Action
 {
     const ADMIN_RESOURCE = 'Inchoo_Ticket::ticket';
 
     /**
-     * @var \Magento\Framework\App\Request\Http\Proxy
+     * @var \Magento\Framework\App\Request\Http
      */
     private $request;
     /**
@@ -39,7 +43,7 @@ class Reply extends Action
     /**
      * Reply constructor.
      * @param Action\Context $context
-     * @param \Magento\Framework\App\Request\Http\Proxy $request
+     * @param \Magento\Framework\App\Request\Http $request
      * @param \Inchoo\Ticket\Model\TicketReplyFactory $ticketReplyFactory
      * @param \Inchoo\Ticket\Model\ResourceModel\TicketReply $ticketReplyResource
      * @param Session $authSession
@@ -47,7 +51,7 @@ class Reply extends Action
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Framework\App\Request\Http\Proxy $request,
+        \Magento\Framework\App\Request\Http $request,
         \Inchoo\Ticket\Model\TicketReplyFactory $ticketReplyFactory,
         \Inchoo\Ticket\Model\ResourceModel\TicketReply $ticketReplyResource,
         Session $authSession,

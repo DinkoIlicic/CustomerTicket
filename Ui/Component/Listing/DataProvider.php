@@ -8,6 +8,10 @@
 
 namespace Inchoo\Ticket\Ui\Component\Listing;
 
+/**
+ * Class DataProvider
+ * @package Inchoo\Ticket\Ui\Component\Listing
+ */
 class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
 {
     /**
@@ -72,6 +76,7 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         try {
             $customer = $this->customerRepository->getById($id);
         } catch (\Exception $exception) {
+            $message = $exception->getMessage();
         }
 
         return ucfirst($customer->getFirstname()) . ' ' . ucfirst($customer->getLastname());

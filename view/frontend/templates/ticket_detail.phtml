@@ -7,11 +7,11 @@
 <div class="columns">
     <div id="ticketDetail">
         <h2>
-            <?php echo $block->escapeHtml(__('Ticket title') . ': ') .
+            <?= $block->escapeHtml(__('Ticket title') . ': ') .
                 $block->escapeHtml($block->getTicketDetails()->getSubject()); ?>
         </h2>
         <h3>
-            <?php echo $block->escapeHtml(__('Ticket content') . ': ') .
+            <?= $block->escapeHtml(__('Ticket content') . ': ') .
                 $block->escapeHtml($block->getTicketDetails()->getMessage()); ?>
         </h3>
     </div>

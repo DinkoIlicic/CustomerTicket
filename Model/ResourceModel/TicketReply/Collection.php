@@ -8,6 +8,10 @@
 
 namespace Inchoo\Ticket\Model\ResourceModel\TicketReply;
 
+/**
+ * Class Collection
+ * @package Inchoo\Ticket\Model\ResourceModel\TicketReply
+ */
 class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 {
     /**

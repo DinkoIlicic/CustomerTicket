@@ -10,6 +10,10 @@ namespace Inchoo\Ticket\Model\ResourceModel;
 
 use Inchoo\Ticket\Api\Data\TicketReplyInterface;
 
+/**
+ * Class TicketReply
+ * @package Inchoo\Ticket\Model\ResourceModel
+ */
 class TicketReply extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
     /**
